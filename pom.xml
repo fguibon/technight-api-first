@@ -36,6 +36,10 @@
 		<openfeign.version>12.4</openfeign.version>
 		<openfeign-form.version>3.8.0</openfeign-form.version>
 		<findbugs.jsr305-version>3.0.2</findbugs.jsr305-version>
+
+		<javax-servlet-api.version>4.0.1</javax-servlet-api.version>
+		<swagger-core-v3.version>2.2.14</swagger-core-v3.version>
+		<jakarta-validation-version>3.0.2</jakarta-validation-version>
 	</properties>
 	<dependencies>
 		<!--- Spring Boot -->
@@ -104,6 +108,28 @@
 			<version>${javax-annotation-api.version}</version>
 		</dependency>
 
+		<!-- Server -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax-servlet-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger-core-v3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-models</artifactId>
+			<version>${swagger-core-v3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>${jakarta-validation.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -113,8 +139,38 @@
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<version>${openapi-generator-maven-plugin.version}</version>
+				<configuration>
+					<output>${project.build.directory}/generated-sources</output>
+					<importMappings>
+						<importMapping>JsonNode=com.fasterxml.jackson.databind.JsonNode</importMapping>
+						<importMapping>Object=java.lang.Object</importMapping>
+						<importMapping>Date=java.time.LocalDate</importMapping>
+					</importMappings>
+					<typeMappings>
+						<typeMapping>Double=java.math.BigDecimal</typeMapping>
+						<typeMapping>object+JSonNode=JsonNode</typeMapping>
+						<typeMapping>Date=LocalDate</typeMapping>
+					</typeMappings>
+					<generateApiTests>false</generateApiTests>
+					<generateModelTests>false</generateModelTests>
+					<skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+					<skipValidateSpec>true</skipValidateSpec>
+					<configOptions>
+						<implicitHeaders>true</implicitHeaders>
+						<useBeanValidation>false</useBeanValidation>
+						<skipDefaultInterface>true</skipDefaultInterface>
+						<sourceFolder>src/main/java</sourceFolder>
+						<interfaceOnly>true</interfaceOnly>
+						<dateLibrary>java8</dateLibrary>
+						<serializableModel>true</serializableModel>
+						<useSpringBoot3>false</useSpringBoot3>
+						<useJakartaEe>true</useJakartaEe>
+						<useTags>true</useTags>
+					</configOptions>
+				</configuration>
 				<executions>
 					<execution>
+						<id>generate-sources-themealdb</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
@@ -125,21 +181,22 @@
 							<apiPackage>com.oxyl.technight_api_first.themealdb.api</apiPackage>
 							<modelPackage>com.oxyl.technight_api_first.themealdb.model</modelPackage>
 							<invokerPackage>com.oxyl.technight_api_first.themealdb.client</invokerPackage>
-							<importMappings>
-								<importMapping>JsonNode=com.fasterxml.jackson.databind.JsonNode</importMapping>
-								<importMapping>Object=java.lang.Object</importMapping>
-								<importMapping>Date=java.time.LocalDate</importMapping>
-							</importMappings>
-							<typeMappings>
-								<typeMapping>Double=java.math.BigDecimal</typeMapping>
-								<typeMapping>object+JSonNode=JsonNode</typeMapping>
-								<typeMapping>Date=LocalDate</typeMapping>
-							</typeMappings>
-							<generateApiTests>false</generateApiTests>
-							<generateModelTests>false</generateModelTests>
-							<skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
-							<skipValidateSpec>true</skipValidateSpec>
 							<library>feign</library>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-sources-server</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/spec/api.yml</inputSpec>
+							<generatorName>spring</generatorName>
+							<modelNameSuffix>Dto</modelNameSuffix>
+							<output>${project.build.directory}/generated-sources</output>
+							<apiPackage>com.oxyl.technight_api_first.server.api</apiPackage>
+							<modelPackage>com.oxyl.technight_api_first.server.model</modelPackage>
+							<invokerPackage>com.oxyl.technight_api_first.server.client</invokerPackage>
 						</configuration>
 					</execution>
 				</executions>

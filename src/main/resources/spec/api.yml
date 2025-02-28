@@ -1,0 +1,74 @@
+openapi: 3.0.1
+info:
+  title: Swagger TheMealBD
+  description: |-
+    Ceci est une spécification crée à partir des endpoints de l'API TheMealDB
+  contact:
+    email: fguibon@oxyl.fr
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://www.themealdb.com/api/json/v1/1
+tags:
+  - name: Meals
+    description: Search meals
+paths:
+  /meals:
+    get:
+      tags:
+        - Meals
+      summary: Search for meals by ingredient, category or area
+      operationId: getMeals
+      parameters:
+        - name: ingredient
+          in: query
+          description: Main ingredient name
+          required: false
+          schema:
+            type: string
+            default: chicken
+        - name: category
+          in: query
+          description: Category
+          required: false
+          schema:
+            type: string
+        - name: area
+          in: query
+          description: Area
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealList'
+        '400':
+          description: Invalid value
+components:
+  schemas:
+    Meal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: "Katsu Chicken curry"
+        thumbnail:
+          type: string
+          example: "https://www.themealdb.com/images/media/meals/vwrpps1503068729.jpg"
+    MealList:
+      type: object
+      properties:
+        meal:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meal'
