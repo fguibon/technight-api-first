@@ -6,6 +6,10 @@ import com.oxyl.technight_api_first.themealdb.api.LookupApi;
 import com.oxyl.technight_api_first.themealdb.api.SearchApi;
 import com.oxyl.technight_api_first.themealdb.client.ApiClient;
 import feign.Feign;
+import feign.Logger;
+import feign.Retryer;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +44,13 @@ public class TheMealDbApiClientConfiguration {
         return new ApiClient()
                 .setBasePath(theMealDbApiUrl)
                 .setFeignBuilder(
-                        Feign.builder().requestInterceptor(new AuthRequestInterceptor())
+                        Feign.builder()
+                                .requestInterceptor(new AuthRequestInterceptor())
+                                .encoder(new JacksonEncoder())
+                                .decoder(new JacksonDecoder())
+                                .retryer(Retryer.NEVER_RETRY)
+                                .logLevel(Logger.Level.BASIC)
+                                .logger(new CustomFeignRequestLogging())
                 )
                 .buildClient(clazz);
     }

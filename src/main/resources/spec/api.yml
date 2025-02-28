@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Swagger TheMealBD
+  title: Swagger Technight Api First
   description: |-
-    Ceci est une spécification crée à partir des endpoints de l'API TheMealDB
+    Api qui permets de récupérer des données depuis l'API TheMealDB
   contact:
     email: fguibon@oxyl.fr
   version: 1.0.0
@@ -10,7 +10,7 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: https://www.themealdb.com/api/json/v1/1
+  - url: http://localhost:8080
 tags:
   - name: Meals
     description: Search meals
@@ -28,7 +28,6 @@ paths:
           required: false
           schema:
             type: string
-            default: chicken
         - name: category
           in: query
           description: Category

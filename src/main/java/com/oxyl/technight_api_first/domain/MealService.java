@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class MealService {
 
-    private FilterApi filterApi;
+    private final FilterApi filterApi;
+
+    public MealService(FilterApi filterApi) {
+        this.filterApi = filterApi;
+    }
 
     public MealListDto getMeals(String ingredient, String category, String area) {
         return toMealListDto(filterApi.filter(ingredient, category, area));
