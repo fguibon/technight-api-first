@@ -20,6 +20,9 @@ public class MealController implements MealsApi {
     @Override
     public ResponseEntity<MealListDto> getMeals(String ingredient, String category, String area) {
         logger.info("[getMeals] {} {} {}", ingredient, category, area);
+        if (ingredient == null && category == null && area == null) {
+            return ResponseEntity.ok(new MealListDto());
+        }
         return ResponseEntity.ok(mealService.getMeals(ingredient, category, area));
     }
 }

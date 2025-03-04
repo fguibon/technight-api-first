@@ -21,13 +21,16 @@ public class MealService {
     }
 
     private MealListDto toMealListDto(MealList mealList) {
-        if(mealList == null || mealList.getMeal() == null) return new MealListDto();
-        return new MealListDto().meal(mealList.getMeal().stream()
+        if (mealList == null || mealList.getMeals() == null) return new MealListDto();
+        return new MealListDto().items(mealList.getMeals().stream()
                 .map(this::toMealDto)
                 .toList());
     }
 
     private MealDto toMealDto(Meal meal) {
-        return new MealDto().id(meal.getIdMeal()).name(meal.getStrMeal()).thumbnail(meal.getStrMealThumb());
+        if (meal.getIdMeal() != null) {
+            return new MealDto().id(Long.valueOf(meal.getIdMeal())).name(meal.getStrMeal()).thumbnail(meal.getStrMealThumb());
+        }
+        return new MealDto();
     }
 }

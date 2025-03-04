@@ -195,13 +195,12 @@ components:
           type: string
           example: "https://www.themealdb.com/images/media/meals/vwrpps1503068729.jpg"
         idMeal:
-          type: integer
-          format: int64
-          example: 1
+          type: string
+          example: "1"
     MealList:
       type: object
       properties:
-        meal:
+        meals:
           type: array
           items:
             $ref: '#/components/schemas/Meal'

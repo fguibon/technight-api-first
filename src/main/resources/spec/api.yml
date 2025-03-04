@@ -67,7 +67,7 @@ components:
     MealList:
       type: object
       properties:
-        meal:
+        items:
           type: array
           items:
             $ref: '#/components/schemas/Meal'
