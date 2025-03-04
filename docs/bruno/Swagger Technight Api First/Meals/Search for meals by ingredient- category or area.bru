@@ -1,0 +1,17 @@
+meta {
+  name: Search for meals by ingredient- category or area
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/meals?category=Dessert
+  body: none
+  auth: none
+}
+
+params:query {
+  category: Dessert
+  ~ingredient: chocolate
+  ~area: 
+}

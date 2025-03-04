@@ -1,0 +1,16 @@
+meta {
+  name: Search meals by first letter or name
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/search.php?s=chocolate
+  body: none
+  auth: none
+}
+
+params:query {
+  s: chocolate
+  ~f: c
+}

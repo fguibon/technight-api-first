@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Swagger Technight Api First",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
