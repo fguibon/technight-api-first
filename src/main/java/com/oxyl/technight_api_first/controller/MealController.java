@@ -2,6 +2,7 @@ package com.oxyl.technight_api_first.controller;
 
 import com.oxyl.technight_api_first.domain.MealService;
 import com.oxyl.technight_api_first.server.api.MealsApi;
+import com.oxyl.technight_api_first.server.model.MealDetailedDto;
 import com.oxyl.technight_api_first.server.model.MealListDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,11 @@ public class MealController implements MealsApi {
 
     public MealController(MealService mealService) {
         this.mealService = mealService;
+    }
+
+    @Override
+    public ResponseEntity<MealDetailedDto> getMealById(String id) {
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Not implemented", null);
     }
 
     @Override
