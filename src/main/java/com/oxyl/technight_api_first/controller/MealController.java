@@ -22,7 +22,8 @@ public class MealController implements MealsApi {
 
     @Override
     public ResponseEntity<MealDetailedDto> getMealById(String id) {
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Not implemented", null);
+        logger.info("[getMealById] {}", id);
+        return ResponseEntity.ok(mealService.getMealById(id));
     }
 
     @Override
