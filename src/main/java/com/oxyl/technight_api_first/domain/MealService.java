@@ -8,12 +8,11 @@ import com.oxyl.technight_api_first.themealdb.api.FilterApi;
 import com.oxyl.technight_api_first.themealdb.api.LookupApi;
 import com.oxyl.technight_api_first.themealdb.model.Meal;
 import com.oxyl.technight_api_first.themealdb.model.MealDetailed;
+import com.oxyl.technight_api_first.themealdb.model.MealDetailedList;
 import com.oxyl.technight_api_first.themealdb.model.MealList;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @Service
 public class MealService {
@@ -48,9 +47,11 @@ public class MealService {
         return new MealDto();
     }
 
-    private MealDetailedDto toMealDetailedDto(List<MealDetailed> mealDetailedList) {
-        MealDetailed mealDetailed = mealDetailedList.getFirst();
-        if (mealDetailed == null || mealDetailed.getIdMeal() == null)
+    private MealDetailedDto toMealDetailedDto(MealDetailedList mealDetailedList) {
+        if (mealDetailedList.getMeals() == null || mealDetailedList.getMeals().isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No meal found");
+        MealDetailed mealDetailed = mealDetailedList.getMeals().getFirst();
+        if (mealDetailed.getIdMeal() == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No meal found");
         return new MealDetailedDto()
                 .id(Long.valueOf(mealDetailed.getIdMeal()))
