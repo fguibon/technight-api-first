@@ -82,9 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MealDetailed'
+                $ref: '#/components/schemas/MealDetailedList'
         '400':
           description: Invalid name
   /lookup.php:
@@ -107,9 +105,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MealDetailed'
+                $ref: '#/components/schemas/MealDetailedList'
         '400':
           description: Invalid id
   /random.php:
@@ -124,9 +120,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MealDetailed'
+                $ref: '#/components/schemas/MealDetailedList'
         '400':
           description: Invalid id
   /categories.php:
@@ -366,6 +360,13 @@ components:
         dateModified:
           type: string
           example: null
+    MealDetailedList:
+      type: object
+      properties:
+        meals:
+          type: array
+          items:
+            $ref: '#/components/schemas/MealDetailed'
     CategoryDetailedList:
       type: object
       properties:
