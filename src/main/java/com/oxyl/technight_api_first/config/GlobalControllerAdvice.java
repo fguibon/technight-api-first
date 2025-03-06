@@ -4,6 +4,7 @@ import com.oxyl.technight_api_first.server.model.ErrorDto;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
 public class GlobalControllerAdvice {
@@ -22,6 +24,9 @@ public class GlobalControllerAdvice {
         logger.error(exception.getReason());
         return switch (exception.getStatusCode()) {
             case BAD_REQUEST -> ResponseEntity.badRequest().body(toErrorDto(exception.getReason()));
+            case NOT_FOUND -> ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(toErrorDto(exception.getReason()));
             default -> ResponseEntity.internalServerError().body(toErrorDto(exception.getReason()));
         };
     }
