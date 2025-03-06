@@ -1,0 +1,15 @@
+meta {
+  name: Get meal by id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/meals/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 52860
+}
