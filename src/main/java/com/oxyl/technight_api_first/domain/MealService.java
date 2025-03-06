@@ -30,7 +30,7 @@ public class MealService {
     }
 
     public MealDetailedDto getMealById(String id) {
-        return toMealDetailedDto(lookupApi.lookupById(Integer.valueOf(id)));
+        return buildMealDetailedDto(lookupApi.lookupById(Integer.valueOf(id)));
     }
 
     private MealListDto toMealListDto(MealList mealList) {
@@ -47,10 +47,14 @@ public class MealService {
         return new MealDto();
     }
 
-    private MealDetailedDto toMealDetailedDto(MealDetailedList mealDetailedList) {
+    private MealDetailedDto buildMealDetailedDto(MealDetailedList mealDetailedList) {
         if (mealDetailedList.getMeals() == null || mealDetailedList.getMeals().isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No meal found");
         MealDetailed mealDetailed = mealDetailedList.getMeals().getFirst();
+        return buildMealDetailedDto(mealDetailed);
+    }
+
+    private MealDetailedDto buildMealDetailedDto(MealDetailed mealDetailed) {
         if (mealDetailed.getIdMeal() == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No meal found");
         return new MealDetailedDto()
@@ -62,6 +66,19 @@ public class MealService {
                 .instructions(mealDetailed.getStrInstructions())
                 .addIngredientsItem(
                         new IngredientDto().name(mealDetailed.getStrIngredient1()).measure(mealDetailed.getStrMeasure1())
-                );
+                )
+                .addIngredientsItem(
+                        new IngredientDto().name(mealDetailed.getStrIngredient2()).measure(mealDetailed.getStrMeasure2())
+                )
+                .addIngredientsItem(
+                        new IngredientDto().name(mealDetailed.getStrIngredient3()).measure(mealDetailed.getStrMeasure3())
+                )
+                .addIngredientsItem(
+                        new IngredientDto().name(mealDetailed.getStrIngredient4()).measure(mealDetailed.getStrMeasure4())
+                )
+                .addIngredientsItem(
+                        new IngredientDto().name(mealDetailed.getStrIngredient5()).measure(mealDetailed.getStrMeasure5())
+                )
+                .source(mealDetailed.getStrSource());
     }
 }
